@@ -25,7 +25,7 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-       
+
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard', absolute: false));
@@ -33,12 +33,12 @@ class AuthenticatedSessionController extends Controller
 
     protected function authenticated(LoginRequest $request, $user)
     {
-        Auth::logoutOtherDevices( $request->authenticate());
-    
+        Auth::logoutOtherDevices($request->authenticate());
+
         return redirect()->intended();
     }
 
-    
+
     /**
      * Destroy an authenticated session.
      */

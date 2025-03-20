@@ -71,8 +71,8 @@
                         <p>Total/Open</p>
                     </th>
                     <th>Status</th>
-                    <th></th>
                     <th>moderator</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>

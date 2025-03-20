@@ -75,8 +75,7 @@
                                     @if ($event_user_security_id)
                                         <label class="flex items-start cursor-pointer">
                                             <input type="radio" wire:model.live="user_id_update"
-                                                @if ($user_id_update == $users->id) checked="checked"
-                                         @else @endif
+                                                @if ($user_id_update == $users->id) checked="checked" @endif
                                                 value="{{ $users->id }}" class=" radio radio-primary radio-xs" />
                                             <span class="label-text">{{ $users->lookup_name }}</span>
                                         </label>

@@ -15,28 +15,28 @@
                         <div class="flex flex-col w-full gap-1 lg:flex-row">
                             <div class="grid flex-grow h-40 card bg-base-300 rounded-box ">
                                 <ul class="list-none text-[9px] list-inside overflow-auto">
-                                    <li class="cursor-pointer hover:bg-base-200 px-2">Company</li>
+                                    <li class="px-2 cursor-pointer hover:bg-base-200">Company</li>
                                     @foreach ($ParentCompany as $item)
                                         <li wire:click="parentCompany({{ $item->id }})"
-                                            class="cursor-pointer hover:bg-base-200 px-4 ">
+                                            class="px-4 cursor-pointer hover:bg-base-200 ">
                                             {{ $item->name_category_company }}</li>
                                     @endforeach
-                                    <li class="cursor-pointer hover:bg-base-200 px-2">Business Unit</li>
+                                    <li class="px-2 cursor-pointer hover:bg-base-200">Business Unit</li>
                                     @foreach ($BusinessUnit as $item)
                                         <li wire:click="businessUnit({{ $item->id }})"
-                                            class="cursor-pointer hover:bg-base-200 px-4">
+                                            class="px-4 cursor-pointer hover:bg-base-200">
                                             {{ $item->Company->name_company }}</li>
                                     @endforeach
-                                    <li class="cursor-pointer hover:bg-base-200 px-2">Department</li>
+                                    <li class="px-2 cursor-pointer hover:bg-base-200">Department</li>
                                     @foreach ($Department as $item)
                                         <li wire:click="department({{ $item->id }})"
-                                            class="cursor-pointer hover:bg-base-200 px-4">
+                                            class="px-4 cursor-pointer hover:bg-base-200">
                                             {{ $item->BusinesUnit->Company->name_company }}-{{ $item->Department->department_name }}
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
-                            <div class="grid flex-grow h-40 card bg-base-300 rounded-box overflow-auto">
+                            <div class="grid flex-grow h-40 overflow-auto card bg-base-300 rounded-box">
                                 <x-select-multiple wire:model.live='division_id' :error="$errors->get('division_id')">
                                     @foreach ($Division as $item)
                                         <option class="text-wrap hover:bg-primary" value="{{ $item->id }}">
@@ -45,8 +45,8 @@
                                                 -{{ $item->Company->name_company }}
                                             @endif
                                             @if (!empty($item->section_id))
-                                            -{{ $item->Section->name }}
-                                        @endif
+                                                -{{ $item->Section->name }}
+                                            @endif
                                         </option>
                                     @endforeach
                                 </x-select-multiple>
@@ -67,14 +67,16 @@
                         </div>
                     </li>
                     <li class="menu-item ">
-                        
-                        <ul wire:loading.class="hidden" wire:target="search_people"  class="overflow-x-auto list-inside h-28">
+
+                        <ul wire:loading.class="hidden" wire:target="search_people"
+                            class="overflow-x-auto list-inside h-28">
                             @forelse ($User as $users)
                                 <li class="text-xs cursor-pointer hover:bg-slate-200">
                                     @if ($event_user_security_id)
                                         <label class="flex items-start cursor-pointer">
                                             <input type="radio" wire:model.live="user_id_update"
-                                            checked="checked"
+                                                @if ($user_id_update == $users->id) checked="checked"
+                                         @else @endif
                                                 value="{{ $users->id }}" class=" radio radio-primary radio-xs" />
                                             <span class="label-text">{{ $users->lookup_name }}</span>
                                         </label>
@@ -93,7 +95,8 @@
                             @endforelse
                         </ul>
                     </li>
-                    <div class="hidden text-center w-full"  wire:target='search_people' wire:loading.class.remove='hidden'> <x-loading-spinner /></div>
+                    <div class="hidden w-full text-center" wire:target='search_people'
+                        wire:loading.class.remove='hidden'> <x-loading-spinner /></div>
                     <div class="m-2">{{ $User->links('pagination.minipaginate') }}</div>
 
                 </ul>
@@ -121,8 +124,8 @@
             </div>
             <div class="modal-action">
                 <x-btn-save wire:target="store" wire:loading.class="btn-disabled">{{ __('Save') }}</x-btn-save>
-                    <x-btn-close wire:target="store" wire:loading.class="btn-disabled" wire:click="$dispatch('closeModal')"
-                        >{{ __('Close') }}</x-btn-close>
+                <x-btn-close wire:target="store" wire:loading.class="btn-disabled"
+                    wire:click="$dispatch('closeModal')">{{ __('Close') }}</x-btn-close>
             </div>
         </form>
     </div>

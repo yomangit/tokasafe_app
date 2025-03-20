@@ -98,21 +98,18 @@ class CreateAndUpdate extends ModalComponent
     }
     public function rules()
     {
-        if($this->user_id_update)
-        {   
+        if ($this->user_id_update) {
             return [
-            'responsible_role_id' => ['required'],
-            'user_id_update' => ['required'],
-            'type_event_report_id' => ['nullable']
+                'responsible_role_id' => ['required'],
+                'user_id_update' => ['required'],
+                'type_event_report_id' => ['nullable']
             ];
-        }
-        else
-        {
+        } else {
             return [
-            'responsible_role_id' => ['required'],
-            'user_id' => ['required'],
-            'type_event_report_id' => ['nullable']
-        ];
+                'responsible_role_id' => ['required'],
+                'user_id' => ['required'],
+                'type_event_report_id' => ['nullable']
+            ];
         }
     }
     public function messages()
@@ -127,10 +124,10 @@ class CreateAndUpdate extends ModalComponent
 
     public function store()
     {
-      
+
         $this->validate();
         $divisi = ($this->division_id) ?  (int) $this->division_id[0] : null;
-        if ( $this->event_user_security_id) {
+        if ($this->event_user_security_id) {
             EventUserSecurity::updateOrCreate(
                 ['id' => $this->event_user_security_id],
                 [
@@ -141,27 +138,26 @@ class CreateAndUpdate extends ModalComponent
                     'dept_by_business_unit_id' =>  $this->dept,
                     'responsible_role_id' => $this->responsible_role_id,
                     'user_id' => $this->user_id_update,
-                    'type_event_report_id' => (!empty($this->type_event_report_id))? $this->type_event_report_id:null,
+                    'type_event_report_id' => (!empty($this->type_event_report_id)) ? $this->type_event_report_id : null,
                 ]
             );
         } else {
             foreach ($this->user_id as $key => $value) {
-            EventUserSecurity::updateOrCreate(
-                ['id' => $this->event_user_security_id],
-                [
-                    'name' => $this->workgroup_name,
-                    'division_id' => $divisi,
-                    'company_category_id' =>  $this->parent_Company,
-                    'busines_unit_id' =>  $this->business_unit,
-                    'dept_by_business_unit_id' =>  $this->dept,
-                    'responsible_role_id' => $this->responsible_role_id,
-                    'user_id' => $this->user_id[$key],
-                    'type_event_report_id' => (!empty($this->type_event_report_id))? $this->type_event_report_id:null,
-                ]
-            );
+                EventUserSecurity::create(
+                    [
+                        'name' => $this->workgroup_name,
+                        'division_id' => $divisi,
+                        'company_category_id' =>  $this->parent_Company,
+                        'busines_unit_id' =>  $this->business_unit,
+                        'dept_by_business_unit_id' =>  $this->dept,
+                        'responsible_role_id' => $this->responsible_role_id,
+                        'user_id' => $this->user_id[$key],
+                        'type_event_report_id' => (!empty($this->type_event_report_id)) ? $this->type_event_report_id : null,
+                    ]
+                );
+            }
         }
-        }
-        
+
         if ($this->event_user_security_id) {
             $this->dispatch(
                 'alert',
@@ -187,7 +183,7 @@ class CreateAndUpdate extends ModalComponent
                     'backgroundColor' => "linear-gradient(to right, #00b09b, #96c93d)",
                 ]
             );
-            $this->reset(['workgroup_name','business_unit','dept','responsible_role_id','user_id','type_event_report_id']);
+            $this->reset(['workgroup_name', 'business_unit', 'dept', 'responsible_role_id', 'user_id', 'type_event_report_id']);
         }
         $this->dispatch('event_user_security_created');
     }

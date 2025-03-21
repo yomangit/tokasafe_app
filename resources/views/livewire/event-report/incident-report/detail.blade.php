@@ -291,7 +291,7 @@
                     <div class="flex flex-col w-full border-opacity-50">
                         <x-label-req :value="__('involved Employees')" />
                         <div class="grid bg-white border rounded-sm ">
-                            <div class="mx-4 my-2 h-44 w-80 sm:w-full ">
+                            <div class="mx-3 my-2 h-44 w-80 sm:w-full ">
                                 <x-btn-add data-tip="Add"
                                     class="{{ $currentStep === 'Closed' || $currentStep === 'Cancelled' ? 'btn-disabled ' : '' }}"
                                     wire:click="$dispatch('openModal', { component: 'event-report.incident-report.event-partisipan.create-and-update', arguments: { incident: {{ $data_id }} }})" />

@@ -94,8 +94,6 @@
             style="fill:#fff" />
     </svg>
 @elseif($fileUpload === 'pdf')
-    <?xml version="1.0" encoding="iso-8859-1"?>
-
     <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
     <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
     <svg version="1.1" id="_x35_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"

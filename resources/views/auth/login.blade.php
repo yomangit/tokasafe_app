@@ -11,7 +11,6 @@
                 :error="$errors->get('username')" autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('username')" class="mt-2" />
         </div>
-
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />

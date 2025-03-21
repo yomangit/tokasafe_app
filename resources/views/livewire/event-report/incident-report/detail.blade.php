@@ -422,7 +422,6 @@
                             </table>
                         </div>
                     </div>
-
                 </div>
                 <table class="table table-xs">
                     @foreach ($RiskAssessment as $item)

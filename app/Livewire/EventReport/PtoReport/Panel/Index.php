@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Notification;
 
 class Index extends Component
 {
-    public $pto_id, $assign_to, $also_assign_to, $current_step, $workflow_administration_id,$reference;
+    public $pto_id, $assign_to, $also_assign_to, $current_step, $workflow_administration_id, $reference;
     public $Workflows, $Workflows_id, $bg_status, $status, $tampilkan = false, $responsible_role_id, $show = false, $EventUserSecurity = [], $division_id, $event_type_id, $procced_to;
     protected $listeners = [
 
@@ -46,16 +46,16 @@ class Index extends Component
         $ClassHierarchy =  ClassHierarchy::where('division_id', [$this->division_id])->first();
         $Company = $ClassHierarchy->company_category_id;
         $Department = $ClassHierarchy->dept_by_business_unit_id;
-        $User = (EventUserSecurity:: where('user_id', Auth::user()->id)->where('responsible_role_id',  2)->where('type_event_report_id', $this->event_type_id)->exists())? EventUserSecurity:: where('user_id', Auth::user()->id)->where('responsible_role_id',  2)->where('type_event_report_id', $this->event_type_id)->pluck('user_id'):EventUserSecurity:: where('user_id', Auth::user()->id)->where('responsible_role_id',  2)->pluck('user_id');
-            foreach ($User as $value) {
-                if (EventUserSecurity::where('user_id', $value)->searchCompany(trim($Company))->exists()) {
-                    $this->tampilkan = true;
-                } elseif (EventUserSecurity::where('user_id', $value)->searchDept(trim($Department))->exists()) {
-                    $this->tampilkan = true;
-                } else {
-                    $this->tampilkan = false;
-                }
+        $User = (EventUserSecurity::where('user_id', Auth::user()->id)->where('responsible_role_id',  2)->where('type_event_report_id', $this->event_type_id)->exists()) ? EventUserSecurity::where('user_id', Auth::user()->id)->where('responsible_role_id',  2)->where('type_event_report_id', $this->event_type_id)->pluck('user_id') : EventUserSecurity::where('user_id', Auth::user()->id)->where('responsible_role_id',  2)->pluck('user_id');
+        foreach ($User as $value) {
+            if (EventUserSecurity::where('user_id', $value)->searchCompany(trim($Company))->exists()) {
+                $this->tampilkan = true;
+            } elseif (EventUserSecurity::where('user_id', $value)->searchDept(trim($Department))->exists()) {
+                $this->tampilkan = true;
+            } else {
+                $this->tampilkan = false;
             }
+        }
     }
     public function realtimeUpdate()
     {
@@ -63,7 +63,7 @@ class Index extends Component
             $ERM = ClassHierarchy::searchDivision(trim($this->division_id))->pluck('dept_by_business_unit_id');
             foreach ($ERM as $value) {
                 if (!empty($value)) {
-                    $this->EventUserSecurity = ( EventUserSecurity::where('responsible_role_id',2)->where('dept_by_business_unit_id', $value)->where('type_event_report_id', $this->event_type_id)->exists())? EventUserSecurity::where('responsible_role_id',2)->where('dept_by_business_unit_id', $value)->where('type_event_report_id', $this->event_type_id)->get(): EventUserSecurity::where('responsible_role_id',2)->where('dept_by_business_unit_id', $value)->get();
+                    $this->EventUserSecurity = (EventUserSecurity::where('responsible_role_id', 2)->where('dept_by_business_unit_id', $value)->where('type_event_report_id', $this->event_type_id)->exists()) ? EventUserSecurity::where('responsible_role_id', 2)->where('dept_by_business_unit_id', $value)->where('type_event_report_id', $this->event_type_id)->get() : EventUserSecurity::where('responsible_role_id', 2)->where('dept_by_business_unit_id', $value)->get();
 
                     $this->show = true;
                 } else {
@@ -80,7 +80,7 @@ class Index extends Component
         $this->userSecurity();
         $this->realtimeUpdate();
 
-            $this->Workflows = WorkflowDetail::where('workflow_administration_id', $this->workflow_administration_id)->where('name', $this->current_step)->get();
+        $this->Workflows = WorkflowDetail::where('workflow_administration_id', $this->workflow_administration_id)->where('name', $this->current_step)->get();
 
         return view('livewire.event-report.pto-report.panel.index', [
             "Workflow" => $this->Workflows,
@@ -124,15 +124,15 @@ class Index extends Component
                 $offerData = [
                     'greeting' => $value->lookup_name,
                     'subject' => '',
-                    'line' =>  $value->lookup_name . ' ' . 'has updated the PTO report status to ' . $this->status .', please review',
+                    'line' =>  $value->lookup_name . ' ' . 'has updated the PTO report status to ' . $this->status . ', please review',
                     'line2' => 'Please review this report',
                     'line3' => 'Thank you',
-                    'actionUrl' => url("https://toka.tokasafe.site/eventReport/PTOReport/detail/$url"),
+                    'actionUrl' => url("https://tokasafe.archimining.com/eventReport/PTOReport/detail/$url"),
                 ];
                 Notification::send($users, new toModerator($offerData));
             }
         }
-      if ($this->procced_to === "Assigned") {
+        if ($this->procced_to === "Assigned") {
             if ($this->assign_to) {
                 $Users = User::where('id', $this->assign_to)->whereNotNull('email')->get();
                 foreach ($Users as $key => $value) {
@@ -143,7 +143,7 @@ class Index extends Component
                         'line' =>  'You have been assigned to a PTO report with reference ' . $this->reference . ', please review',
                         'line2' => 'Please check by click the button below',
                         'line3' => 'Thank you',
-                        'actionUrl' => url("https://toka.tokasafe.site/eventReport/PTOReport/detail/$url"),
+                        'actionUrl' => url("https://tokasafe.archimining.com/eventReport/PTOReport/detail/$url"),
                     ];
                     Notification::send($report_to, new toModerator($offerData));
                 }
@@ -158,13 +158,13 @@ class Index extends Component
                         'line' =>  'You have been assigned to a PTO report with reference ' . $this->reference . ', please review',
                         'line2' => 'Please check by click the button below',
                         'line3' => 'Thank you',
-                        'actionUrl' => url("https://toka.tokasafe.site/eventReport/PTOReport/detail/$url"),
+                        'actionUrl' => url("https://tokasafe.archimining.com/eventReport/PTOReport/detail/$url"),
                     ];
                     Notification::send($report_to, new toModerator($offerData));
                 }
             }
         }
-      if ($this->procced_to === "Closed") {
+        if ($this->procced_to === "Closed") {
             if ($this->assign_to) {
                 $Users = User::where('id', $this->assign_to)->whereNotNull('email')->get();
                 foreach ($Users as $key => $value) {
@@ -172,10 +172,10 @@ class Index extends Component
                     $offerData = [
                         'greeting' =>  '',
                         'subject' => '',
-                        'line' =>   Auth::user()->lookup_name.' Closed this PTO Report',
+                        'line' =>   Auth::user()->lookup_name . ' Closed this PTO Report',
                         'line2' => 'Please check by click the button below',
                         'line3' => 'Thank you',
-                        'actionUrl' => url("https://toka.tokasafe.site/eventReport/PTOReport/detail/$url"),
+                        'actionUrl' => url("https://tokasafe.archimining.com/eventReport/PTOReport/detail/$url"),
                     ];
                     Notification::send($report_to, new toModerator($offerData));
                 }
@@ -187,10 +187,10 @@ class Index extends Component
                     $offerData = [
                         'greeting' =>  '',
                         'subject' => '',
-                        'line' =>   Auth::user()->lookup_name.' Closed this PTO Report',
+                        'line' =>   Auth::user()->lookup_name . ' Closed this PTO Report',
                         'line2' => 'Please check by click the button below',
                         'line3' => 'Thank you',
-                        'actionUrl' => url("https://toka.tokasafe.site/eventReport/PTOReport/detail/$url"),
+                        'actionUrl' => url("https://tokasafe.archimining.com/eventReport/PTOReport/detail/$url"),
                     ];
                     Notification::send($report_to, new toModerator($offerData));
                 }

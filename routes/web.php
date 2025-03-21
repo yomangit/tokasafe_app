@@ -67,9 +67,7 @@ Route::get(
         return view('welcome');
     }
 );
-Route::get('/foo', function () {
-    Artisan::call('storage:link');
-});
+
 Route::get('manhours/manhoursTable', WebAccess::class)->name('WebAccess');
 Route::middleware(['auth', 'auth.session'])->group(function () {
 

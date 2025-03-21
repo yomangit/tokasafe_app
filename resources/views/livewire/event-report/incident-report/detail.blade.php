@@ -287,7 +287,7 @@
                     </div>
                     <x-label-error :messages="$errors->get('description')" />
                 </div>
-                <div class="w-full sm:grid sm:gap-2 sm:grid-cols-2 form-control">
+                <div class=" sm:grid sm:gap-2 sm:grid-cols-2 form-control">
                     <div class="flex flex-col w-full border-opacity-50">
                         <x-label-req :value="__('involved Employees')" />
                         <div class="grid bg-white border rounded-sm card">

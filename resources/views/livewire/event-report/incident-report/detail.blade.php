@@ -447,7 +447,6 @@
                         </tr>
                     @endforeach
                 </table>
-
                 <div class="flex flex-col w-full border-opacity-50">
                     <div class="divider divider-accent">Final Documentation</div>
                     <div class="grid card bg-base-300 rounded-box ">

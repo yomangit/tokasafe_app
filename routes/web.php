@@ -52,21 +52,14 @@ use App\Livewire\Admin\WorkflowAdministration\Index as workflowAdministration;
 use App\Livewire\EventReport\HazardReport\CreateAndUpdate as hazardReportform;
 use App\Livewire\EventReport\IncidentReport\CreateAndUpdate as CreateAndUpdateIncidentReport;
 
-
 $newReference =  Str::random(9);
 $reference_pto = 'OHS-PTO-' . $newReference;
-
 Route::get('/language/{locale}', function ($locale) {
     session()->put('locale', $locale);
     return redirect()->back();
 })->name('locale');
 
-Route::get(
-    '/welcome',
-    function () {
-        return view('welcome');
-    }
-);
+
 
 Route::get('manhours/manhoursTable', WebAccess::class)->name('WebAccess');
 Route::middleware(['auth', 'auth.session'])->group(function () {
